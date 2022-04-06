@@ -28,11 +28,13 @@ type Transactions struct {
 type Transaction struct {
 	Base              `valid:"required"`
 	AccountFrom       *Account `valid:"-"`
-	Amount            float64  `json:"amount" valid:"nonull"`
+	AccountFromID     string   `gorm:"column:account_from_id;type:uuid;" valid:"notnull"`
+	Amount            float64  `json:"amount" gorm:"type:float" valid:"nonull"`
 	PixKeyTo          *PixKey  `valid:"-"`
-	Status            string   `json:"status" valid:"nonull"`
-	Description       string   `json:"description" valid:"nonull"`
-	CancelDescription string   `json:"cancel_description" valid:"nonull"`
+	PixKeyIdTo        string   `gorm:"column:pix_key_id;type:uuid;not null" valid:"notnull"`
+	Status            string   `json:"status" gorm:"type:varchar(20)" valid:"nonull"`
+	Description       string   `json:"description" gorm:"type:varchar(255)" valid:"nonull"`
+	CancelDescription string   `json:"cancel_description" gorm:"type:varchar(255)" valid:"nonull"`
 }
 
 func (t *Transaction) isValid() error {
